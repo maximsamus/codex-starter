@@ -10,4 +10,4 @@
 
 ## Source lineage
 
-This project started from `artemiimillier/claude-code-starter` and was adapted for Codex.
+This project is a starter template adapted for Codex.

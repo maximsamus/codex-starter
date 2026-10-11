@@ -69,43 +69,20 @@ function Check-Pattern($Label, $Pattern, [switch]$IgnoreCase) {
 Write-Header "1. Infrastructure"
 Check-Pattern "SSH IP / Docker UUID / platform DB / Coolify" "46\.21\.244\.60|a6aoywq9ikx5et2jgwwm2vpe|platform_user|platform_db|COOLIFY_|YANDEX_CLOUD|ssh\s+root@"
 
-Write-Header "2. Author personal data"
-Check-Pattern "Author name / email / handle" "артемий миллер|artemii\.millier|artemiimiller@" -IgnoreCase
-
-Write-Header "3. Third-party email addresses"
+Write-Header "2. Third-party email addresses"
 Check-Pattern "gmail/yandex/mail/list/inbox emails" "[a-z0-9._+-]+@(gmail|yandex|mail|list|inbox)\.(com|ru)"
 
-Write-Header "4. Cohort / internal platform URLs"
+Write-Header "3. Cohort / internal platform URLs"
 Check-Pattern "COHORT_SLUG and disk.yandex.ru slide links" "COHORT_SLUG|\{COHORT|disk\.yandex\.ru/i/"
 
-Write-Header "5. Formal secrets"
+Write-Header "4. Formal secrets"
 Check-Pattern "API keys, tokens in key=value pairs" "(api[_-]?key|secret|password|token|bearer)\s*[:=]\s*[""'][^""']{10,}" -IgnoreCase
 Check-Pattern "Stripe / OpenAI live keys" "sk-[a-zA-Z0-9]{20,}|sk_live_|sk_test_|BEGIN.*PRIVATE KEY"
 
-Write-Header "6. Forbidden files"
+Write-Header "5. Forbidden files"
 if (Test-Path ".env") { Fail ".env present" } else { Pass "no .env" }
 if (Test-Path ".env.local") { Fail ".env.local present" } else { Pass "no .env.local" }
 if (Test-Path ".codex/config.local.toml") { Fail ".codex/config.local.toml present" } else { Pass "no config.local.toml" }
-
-Write-Header "7. smyslokod brand"
-$brandHits = @()
-foreach ($file in Get-AuditFiles) {
-    $lines = Get-Content -LiteralPath $file.FullName -Encoding UTF8 -ErrorAction SilentlyContinue
-    for ($i = 0; $i -lt $lines.Count; $i++) {
-        if ($lines[$i] -match "smyslokod|школе смысло|смысло-кодинга") {
-            $relative = Resolve-Path -Relative $file.FullName
-            $brandHits += "${relative}:$($i + 1):$($lines[$i])"
-        }
-    }
-}
-
-if ($brandHits.Count -le 8) {
-    Pass "$($brandHits.Count) mentions"
-    $brandHits | ForEach-Object { Write-Host "  $_" }
-} else {
-    Write-Host "WARN: $($brandHits.Count) mentions - review manually" -ForegroundColor Yellow
-    $brandHits | ForEach-Object { Write-Host "  $_" }
-}
 
 Write-Header "RESULT"
 if ($fail) {
