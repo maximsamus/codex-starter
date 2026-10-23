@@ -1,208 +1,70 @@
 # Codex Starter
 
-Стартовый шаблон для проектов, где Codex используется как основной coding agent. Клонируешь репозиторий, открываешь его в Codex, проходишь онбординг и получаешь: адаптивный бизнес-контекст, `AGENTS.md`, рабочий цикл `plan → implement → verify → retro`, личный контекст, методологии и базовые guardrails безопасности.
+Русский шаблон для настройки проекта в Codex: правила `AGENTS.md`, сценарий первого запуска и проверки безопасности. Подходит для отдельного учебного проекта или подготовки своей рабочей копии.
 
-Официальные точки опоры:
-- [Codex docs](https://developers.openai.com/codex)
-- [AGENTS.md guidance](https://developers.openai.com/codex/guides/agents-md)
-- [Codex hooks](https://developers.openai.com/codex/hooks)
-- [Codex skills](https://developers.openai.com/codex/skills)
+Это форк [arseniy-io/codex-starter](https://github.com/arseniy-io/codex-starter). В оригинальной MIT-лицензии указан **Artemii Miller / Школа Смысло-кодинга**. Авторство оригинала сохранено; локальные дополнения - Maxim Samus.
 
-## TL;DR
+## Минимальный запуск
 
-1. Клонируй шаблон и открой папку в Codex.
-2. Напиши `привет` или `проведи меня`.
-3. Codex прочитает `AGENTS.md`, увидит `AUTOPILOT.md` и проведёт тебя по настройке. После первого этапа можно продолжить по `POST_AUTOPILOT.md`.
-
-## Что получится
-
-- `business/` - адаптивный контекст проекта и второй мозг бизнеса. Для маленького проекта AUTOPILOT может создать компактный набор файлов; для сложного продукта - расширенную структуру: продукт, аудитория, цели, экономика, маркетинг, бренд, `life-metrics.md` и `raw/`.
-- `ai-clone/` - личный контекст автора решений: голос, принципы, стиль мышления, feedback.
-- `mastery/` - авторские экспертные линзы и методы, которые Codex читает точечно под задачу.
-- `PROJECT_STATE.md` - короткий вход для нового окна Codex: текущий фокус, что читать сначала и что не трогать без причины.
-- `AGENTS.md` - долговременные правила для Codex в этом репозитории.
-- `.codex/` - project-level config, onboarding state и место для guardrails.
-- `.agents/skills/` - место для локальных repo-skills, если они нужны проекту.
-- `plans/` - планы реализации по задачам.
-- `retrospectives/` - короткая память между сессиями.
-- `prompts/` - готовые workflow-промпты под типовые задачи.
-- `maintainer/` - история разработки самого starter-template; не входит в обычный маршрут чтения проекта.
-- `STRUCTURE.md` - короткая карта всех папок и зачем они нужны.
-- `QUALITY_CHECKLIST.md` - критерии качества перед публикацией или крупной правкой.
-
-## Перед стартом
-
-Убедись, что:
-
-- установлен Git;
-- установлен Node.js, если твой стек или Codex-установка его требует;
-- у тебя есть доступ к Codex в выбранной поверхности: CLI, IDE extension, desktop app или web/cloud;
-- ты авторизован в OpenAI/Codex;
-- VPN/сеть стабильны, если доступ к OpenAI в твоей стране нестабилен.
-
-## Как запустить
+Нужны Git, Python 3 для проверок и установленный Codex с настроенным доступом.
 
 ```bash
-git clone https://github.com/<your-username>/<your-codex-starter-repo> moy-proekt
+git clone https://github.com/maximsamus/codex-starter.git moy-proekt
 cd moy-proekt
+python3 scripts/starter-lint.py
+codex
 ```
 
-Если ты держишь шаблон только локально, просто скопируй папку или клонируй свой приватный репозиторий. После создания проекта проверь `git remote -v`, чтобы случайно не пушить в репозиторий шаблона.
+В открывшемся Codex напишите:
 
-Затем открой папку в Codex и напиши:
+> Это учебный проект: страница со списком книг. Проведи меня через первый запуск. Ничего не публикуй, не подключай платежи и не меняй настройки компьютера.
 
-```text
-привет
-```
+Codex должен прочитать `AGENTS.md`, проверить состояние в `.codex/autopilot-state.yml` и предложить настройку по `AUTOPILOT.md`. Это сценарий работы с агентом; поведение модели зависит от выбранного клиента и версии.
 
-Если `AUTOPILOT.md` ещё не завершён, Codex начнёт онбординг.
+Если нужны запуск клиента и первый запрос, есть [инструкция по работе с Codex](https://claudebase.ru/stati/codex-kak-polzovatsya/?utm_source=github&utm_medium=referral&utm_campaign=codex-starter&utm_content=readme-guide).
 
-## Структура
+## Что есть в шаблоне
 
-```
-codex-starter/
-├── AGENTS.md              ← правила работы Codex
-├── PROJECT_STATE.md       ← короткий вход в текущее состояние
-├── AUTOPILOT.md           ← сценарий первого запуска
-├── POST_AUTOPILOT.md      ← второй этап настройки
-├── TROUBLESHOOTING.md     ← решения типовых проблем
-├── .codex/                ← project config, onboarding state и guardrails
-├── .agents/skills/        ← локальные repo-skills
-├── ai-clone/              ← личный контекст автора решений
-├── mastery/               ← методологии и экспертные подходы
-├── business/              ← бизнес-контекст и второй мозг проекта
-├── plans/                 ← планы реализации
-├── retrospectives/        ← ретроспективы
-├── prompts/               ← библиотека промптов
-├── templates/             ← шаблоны файлов
-├── scripts/               ← проверки шаблона
-├── maintainer/            ← история обслуживания starter-template
-├── STRUCTURE.md           ← карта папок
-└── QUALITY_CHECKLIST.md   ← критерии качества
-```
+- `AGENTS.md` - правила работы агента. `PROJECT_STATE.md` - краткое состояние проекта.
+- `AUTOPILOT.md` и `POST_AUTOPILOT.md` - два этапа настройки.
+- `templates/` и `examples/` - шаблоны и учебные примеры.
+- `scripts/` - локальные проверки структуры и безопасности.
+- `.codex/` - конфигурация, состояние настройки и hook-policy.
+- `prompts/` - задания под отдельные этапы работы; начинайте с `prompts/INDEX.md`.
+- `plans/` и `retrospectives/` - планы и итоги работы.
+- `ai-clone/` и `mastery/` - пустые шаблоны контекста; заполненного личного профиля и файлов отдельных мастеров в них нет.
+- `maintainer/` - старые отчёты разработки оригинала, в том числе с локальными Windows-путями. Они сохранены как часть истории и требуют отдельного просмотра перед дальнейшим распространением.
 
-## Безопасность
+Полная карта - в [STRUCTURE.md](./STRUCTURE.md). В `examples/coffeeshop/business/` есть учебные бизнес-данные. Корневая папка `business/` создаётся при настройке и игнорируется Git. В ней `life-metrics.md` хранит проверенные показатели, а `raw/` - исходные материалы пользователя.
 
-- `.env` и `.env.local` уже добавлены в `.gitignore`.
-- `business/` по умолчанию игнорируется: AUTOPILOT создаёт её локально, потому что там быстро появляются приватная стратегия, экономика, клиенты, raw-транскрипты и рабочие решения. Пример структуры смотри в `examples/` и `templates/`.
-- `ai-clone/` и `mastery/` сначала tracked как плейсхолдеры. После заполнения `POST_AUTOPILOT.md` проводит privacy-gate: оставить в приватном repo, снять с tracking или оставить только безопасную короткую версию.
-- Pre-commit hook проверяет staged-файлы на секреты.
+## Проверки
 
-Windows/PowerShell:
-
-```powershell
-Copy-Item .github/hooks/pre-commit.sample .git/hooks/pre-commit
-```
-
-macOS/Linux/Git Bash:
-
-```bash
-cp .github/hooks/pre-commit.sample .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
-
-- `.codex/hooks.json` подключает project-level `PreToolUse` hook для shell-команд.
-- `.codex/hooks/pre_tool_use_policy.py` содержит проверяемый policy-скрипт для опасных команд. В новом окружении Codex может попросить trust-review для project-local hooks.
-- Для реального проекта после AUTOPILOT запускай мягкую проверку:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/user-project-safety-check.ps1
-```
-
-На macOS/Linux или из Git Bash:
-
-```bash
-bash scripts/user-project-safety-check.sh
-```
-
-- Для проверки копии, где AUTOPILOT уже пройден и `business/` создан, запускай onboarded-lint:
-
-```powershell
-python scripts/starter-lint.py --onboarded
-```
-
-Он проверяет результат онбординга: `.codex/autopilot-state.yml` завершён, `business/INDEX.md`, `business/life-metrics.md` и `business/raw/README.md` есть, `business/` не tracked, а `AGENTS.md` и `PROJECT_STATE.md` ведут Codex по короткому маршруту чтения.
-
-- Для публикации самого starter-template запускай полный publication audit:
-
-```powershell
-python scripts/starter-lint.py
-```
-
-Он проверяет структуру чистого starter-template: `.codex/autopilot-state.yml`, `.gitattributes`, отсутствие корневой `business/`, markdown-ссылки, mojibake, hook smoke-test, `git diff --check` и старые agent-specific следы в рабочих инструкциях. Если AUTOPILOT уже пройден, используй `python scripts/starter-lint.py --onboarded`, потому что заполненная копия больше не должна выглядеть как pristine-шаблон.
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/security-audit.ps1
-```
-
-На macOS/Linux или из Git Bash:
+Из корня шаблона:
 
 ```bash
 python3 scripts/starter-lint.py
 bash scripts/security-audit.sh
+bash scripts/user-project-safety-check.sh
 ```
 
-Проверить hook-policy вручную.
+Первая команда проверяет структуру, локальные ссылки и hook-policy. После заполнения пользовательской копии применяйте `python3 scripts/starter-lint.py --onboarded`: это другой режим проверки.
 
-Windows/PowerShell:
+Shell-скрипты дают дополнительную проверку известных шаблонов секретов. Их успешный результат не заменяет просмотр файлов перед публикацией.
 
-```powershell
-'{"tool":"shell","input":{"command":"rm -rf tmp"}}' | python .codex/hooks/pre_tool_use_policy.py
-```
+## Перед переносом в свой проект
 
-macOS/Linux/Git Bash:
+Проверьте `git remote -v`: по умолчанию `origin` ведёт на репозиторий шаблона. Заполненные личные и бизнес-файлы храните приватно, секреты в Git не добавляйте.
 
-```bash
-echo '{"tool":"shell","input":{"command":"rm -rf tmp"}}' | python .codex/hooks/pre_tool_use_policy.py
-```
+Файлы hooks в шаблоне требуют поддержки и доверия со стороны выбранной версии Codex. Проверка Python подтверждает поведение policy-скрипта, но не доказывает, что ваш клиент его подключил. Подробности - в [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
 
-## Как работать после онбординга
+Этот репозиторий не устанавливает клиент Codex, не включает доступ к OpenAI и не гарантирует поведение модели или лимиты.
 
-1. Перед задачей Codex читает `AGENTS.md`.
-2. Затем он читает `PROJECT_STATE.md`, чтобы понять текущий фокус и 2-4 первых файла.
-3. Для продуктовых задач он берёт только нужный контекст из `business/`.
-4. Для задач про автора или методологии он берёт только нужные файлы из `ai-clone/` и `mastery/`.
-5. Для новой функции создаёт план в `plans/`.
-6. После реализации запускает проверки стека.
-7. В конце заметной сессии обновляет `PROJECT_STATE.md`, если изменился фокус или следующий шаг, и пишет ретро в `retrospectives/`.
+## Официальная документация
 
-`maintainer/` нужен только для обслуживания самого starter-template. В обычном проекте Codex не читает старые планы, ретро и эксперименты из этой папки.
-
-## Что шаблон не делает
-
-- Не устанавливает Codex и не настраивает твой аккаунт OpenAI.
-- Не выбирает тариф и не гарантирует лимиты использования.
-- Не заменяет твои ответы в бизнес-интервью.
-- Не включает автоматом рискованные режимы без подтверждений.
-
-## Если уже есть проект
-
-Используй [`prompts/methodology/import-existing-project.md`](./prompts/methodology/import-existing-project.md). Codex прочитает структуру проекта, README и код, затем заполнит `business/` на основе найденного и задаст вопросы по пробелам.
-
-Если у тебя уже был старый проект с `.business/`, смотри [`MIGRATION_BUSINESS_FOLDER.md`](./MIGRATION_BUSINESS_FOLDER.md).
-
-## FAQ
-
-### Почему `AGENTS.md`, а не просто промпт в чат?
-
-Промпт живёт одну сессию. `AGENTS.md` хранит durable-инструкции для репозитория: команды, стиль, правила проверки, безопасность и структуру контекста.
-
-### Можно ли использовать с Cursor/Windsurf/другими агентами?
-
-Методология `business/`, `plans/`, `retrospectives/` переносима. Но `AGENTS.md`, `.codex/`, hooks и skills адаптированы под Codex.
-
-### Почему `business/`, а не `.business/`?
-
-Инструкция использует видимую папку `business/`: её проще найти, объяснить и поддерживать как второй мозг проекта. Приватность сохраняется через `/business/` в `.gitignore`, а не через скрытое имя папки.
-
-### Сколько токенов уйдёт?
-
-Зависит от размера проекта, частоты задач, подключённых tools/MCP/skills и того, насколько аккуратно ты держишь контекст. Правило шаблона: сначала индекс, потом только нужные файлы, без загрузки всех контекстных папок целиком.
+- [Codex](https://developers.openai.com/codex)
+- [Правила AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
+- [Скиллы](https://developers.openai.com/codex/skills)
 
 ## Лицензия
 
-MIT.
-
----
-
-<sub>Шаблон адаптирован под Codex.</sub>
+[MIT](./LICENSE). Уведомление автора оригинала и уведомление об адаптации сохранены в LICENSE.
